@@ -1,0 +1,158 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;600;800&display=swap');
+
+.header {
+    position: sticky;
+    margin-top: 0;
+    z-index: 100;
+    top: 0;
+    display:flex;
+    align-items: center;
+    justify-content:space-between;
+    background-color: #000000;
+    padding: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    opacity: 1;
+    border-bottom: 3px solid #9a0504;
+  }
+  
+  .logo img {
+    width: 300px; 
+    height: auto;
+    margin-left: 200px;
+  }
+
+.search-bar {
+  position: sticky;
+  width: 70%;
+  top: 0;
+  background-color: #000000;
+  padding: 20px;
+  text-align: right;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  z-index: 100;
+  margin-right: 200px;
+}
+
+#search {
+  font-family: 'Poppins', sans-serif;
+  width: 97%;
+  padding: 10px;
+  text-align: left;
+  font-size: 16px;
+  border-radius: 25px;
+}
+body {
+  font-family: 'Poppins', sans-serif;
+  margin: 0;
+  padding-top: 80px;
+  background-color: #000000;
+  background-image: url(imagenes/vegito_black_background_4k_5k_hd_dragon_ball_z.jpg);
+  width: auto;
+}
+
+.container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  padding: 20px;
+}
+
+.character {
+  position:relative;
+  width: 320px;
+  height: 530px;
+  background: #100e0e;
+  border-radius: 25px;
+  overflow: hidden;
+  cursor: pointer;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+  margin: 20px;
+  transition: transform 0.5s;
+  transform-style: preserve-3d;
+  backface-visibility: hidden;
+  perspective: 1000px;
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  border: 3px solid #daba05;
+}
+
+.character img {
+  width: 50%;
+  height: 50%;
+  margin: auto;
+  display: flex;
+}
+
+.character h2 {
+  font-size: 24px;
+  margin-bottom: 10px;
+  color: #daba05;
+  text-align: center;
+}
+
+.character p {
+  font-size: 16px;
+  line-height: 1.5;
+  margin-bottom: 20px;
+  color: #ffffff;
+  margin-left: 3px;
+}
+
+.character .more-info-btn {
+  font-family: 'Poppins', sans-serif;
+  background-color: #9a0504;
+  color: white;
+  border: none;
+  padding: 10px 12px;
+  cursor: pointer;
+  border-radius: 25px;
+  display: block;
+  width: 100%;
+  text-align: center;
+  transition: background-color 0.3s;
+  margin-bottom: 10px;
+}
+
+.character .more-info-btn:hover {
+  background-color: #bd0808;
+}
+.character .more-info-btn2 {
+    font-family: 'Poppins', sans-serif;
+    background-color: #9a0504;
+    color: white;
+    border: none;
+    padding: 10px 12px;
+    cursor: pointer;
+    border-radius: 25px;
+    display: block;
+    width: 100%;
+    text-align: center;
+    transition: background-color 0.3s;
+  }
+  
+  .character .more-info-btn2:hover {
+    background-color: #bd0808;
+  }
+
+.character .character-name {
+  position: relative;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  opacity: 0;
+  transition: opacity 0.3s ease-in-out;
+  pointer-events: none;
+  text-align: center;
+  color: #fff;
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.character:hover .character-name {
+  opacity: 0.8;
+}
+
+.swal2-styled.swal2-confirm.swalBtnColor {
+    color: #FFC900
+  }
