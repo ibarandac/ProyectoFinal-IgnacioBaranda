@@ -29,25 +29,17 @@ document.addEventListener("DOMContentLoaded", () => {
         },
         title: character.name,
         text: character.description,
-        icon: character.image,
         confirmButtonText: 'Cerrar'
         
       });
     });
 
-    const evolutionsButton = document.createElement('button');
-    evolutionsButton.textContent = 'Ver evoluciones';
-    evolutionsButton.classList.add('more-info-btn2');
-
-    evolutionsButton.addEventListener('click', () => {
-      showEvolutions(character);
-    });
+  
 
     characterDiv.appendChild(characterImage);
     characterDiv.appendChild(characterName);
     characterDiv.appendChild(characterInfo);
     characterDiv.appendChild(moreInfoButton);
-    characterDiv.appendChild(evolutionsButton);
 
     charactersList.appendChild(characterDiv);
   }
@@ -67,27 +59,7 @@ document.addEventListener("DOMContentLoaded", () => {
         console.error('Error fetching characters:', error);
       });
   }
-  function showEvolutions(character) {
-    if (character.transformations && character.transformations.length > 0) {
-      let evolutionsText = 'Evoluciones:';
-      character.transformations.forEach(evolution => {
-        evolutionsText += `\n- ${transformations.name}`;
-      });
-      Swal.fire({
-        title: `${character.name} - Evoluciones`,
-        text: evolutionsText,
-        icon: 'info',
-        confirmButtonText: 'Cerrar'
-      });
-    } else {
-      Swal.fire({
-        title: `${character.name} - Evoluciones`,
-        text: 'No hay información disponible sobre las evoluciones.',
-        icon: 'info',
-        confirmButtonText: 'Cerrar'
-      });
-    }
-  }
+  
 
   fetchCharacters('https://dragonball-api.com/api/characters');
 
@@ -106,4 +78,30 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     });
   });
+});
+
+let timerInterval;
+Swal.fire({
+  title: "Bienvenidos al mundo de",
+  imageUrl: src="imagenes/Dragon_Ball_Z_Logo_C.png",
+  imageWidth: 300,
+  imageHeight: 125,
+  html: "Me cerraré en <b></b> millisegundos.",
+  timer: 3000,
+  timerProgressBar: true,
+  didOpen: () => {
+    Swal.showLoading();
+    const timer = Swal.getPopup().querySelector("b");
+    timerInterval = setInterval(() => {
+      timer.textContent = `${Swal.getTimerLeft()}`;
+    }, 100);
+  },
+  willClose: () => {
+    clearInterval(timerInterval);
+  }
+}).then((result) => {
+  /* Read more about handling dismissals below */
+  if (result.dismiss === Swal.DismissReason.timer) {
+    console.log("I was closed by the timer");
+  }
 });
