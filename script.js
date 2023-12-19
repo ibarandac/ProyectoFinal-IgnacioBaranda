@@ -1,6 +1,7 @@
 document.addEventListener("DOMContentLoaded", () => {
   const charactersList = document.getElementById("characters-list");
   const searchInput = document.getElementById("search");
+  const userButton = document.getElementById("viewUserInfo");
 
   function createCharacterCard(character) {
     const characterDiv = document.createElement('div');
@@ -24,17 +25,14 @@ document.addEventListener("DOMContentLoaded", () => {
 
     moreInfoButton.addEventListener('click', () => {
       Swal.fire({
-        customClass: {
-          confirmButtonColor: 'swalBtnColor'
-        },
         title: character.name,
         text: character.description,
-        confirmButtonText: 'Cerrar'
-        
+        confirmButtonText: 'Cerrar',
+        didOpen: () => {
+          saveToLocalStorage(userName, character.name);
+        }
       });
     });
-
-  
 
     characterDiv.appendChild(characterImage);
     characterDiv.appendChild(characterName);
@@ -59,7 +57,6 @@ document.addEventListener("DOMContentLoaded", () => {
         console.error('Error fetching characters:', error);
       });
   }
-  
 
   fetchCharacters('https://dragonball-api.com/api/characters');
 
@@ -78,30 +75,77 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     });
   });
-});
 
-let timerInterval;
-Swal.fire({
-  title: "Bienvenidos al mundo de",
-  imageUrl: src="imagenes/Dragon_Ball_Z_Logo_C.png",
-  imageWidth: 300,
-  imageHeight: 125,
-  html: "Me cerraré en <b></b> millisegundos.",
-  timer: 3000,
-  timerProgressBar: true,
-  didOpen: () => {
-    Swal.showLoading();
-    const timer = Swal.getPopup().querySelector("b");
-    timerInterval = setInterval(() => {
-      timer.textContent = `${Swal.getTimerLeft()}`;
-    }, 100);
-  },
-  willClose: () => {
-    clearInterval(timerInterval);
+  function getLocalStorageData() {
+    const storedName = localStorage.getItem("userName");
+    const storedCharacter = localStorage.getItem("favoriteCharacter");
+
+    if (storedName && storedCharacter) {
+      showAlert(storedName, storedCharacter, true);
+    } else {
+      requestUserInfo();
+    }
   }
-}).then((result) => {
-  /* Read more about handling dismissals below */
-  if (result.dismiss === Swal.DismissReason.timer) {
-    console.log("I was closed by the timer");
+
+  function showAlert(name, character, returningUser) {
+    let title = "¡Bienvenido!";
+    let message = `¡Hola, ${name}!`;
+
+    if (returningUser) {
+      title = `¡Bienvenido de vuelta ${name}!`;
+      message = `Tu personaje favorito de Dragon Ball es ${character}.`;
+    }
+
+    Swal.fire({
+      title,
+      text: message,
+      imageUrl: src="imagenes/Dragon_Ball_Z_Logo_C.png",
+      imageWidth: 300,
+      imageHeight: 125,
+      confirmButtonText: "Entendido",
+    });
   }
+
+  function saveToLocalStorage(name, character) {
+    localStorage.setItem("userName", name);
+    localStorage.setItem("favoriteCharacter", character);
+  }
+
+  function requestUserInfo() {
+    Swal.fire({
+      imageUrl: src="imagenes/Dragon_Ball_Z_Logo_C.png",
+      imageWidth: 300,
+      imageHeight: 125,
+      title: "Ingresa tu nombre y tu personaje favorito",
+      html:
+        '<input id="swal-input1" class="swal2-input" placeholder="Nombre">' +
+        '<input id="swal-input2" class="swal2-input" placeholder="Personaje favorito">',
+      focusConfirm: false,
+      preConfirm: () => {
+        const userName = Swal.getPopup().querySelector("#swal-input1").value;
+        const favoriteCharacter = Swal.getPopup().querySelector("#swal-input2").value;
+        if (!userName || !favoriteCharacter) {
+          Swal.showValidationMessage("Por favor, completa ambos campos");
+        }
+        return { userName, favoriteCharacter };
+      },
+    }).then((result) => {
+      if (result.isConfirmed) {
+        const { userName, favoriteCharacter } = result.value;
+        saveToLocalStorage(userName, favoriteCharacter);
+        showAlert(userName, favoriteCharacter);
+      }
+    });
+  }
+
+  userButton.addEventListener("click", () => {
+    const storedName = localStorage.getItem("userName");
+    const storedCharacter = localStorage.getItem("favoriteCharacter");
+
+    if (storedName && storedCharacter) {
+      showAlert(storedName, storedCharacter, true);
+    } 
+  });
+
+  getLocalStorageData();
 });
