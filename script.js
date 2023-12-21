@@ -88,12 +88,12 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function showAlert(name, character, returningUser) {
-    let title = "¡Bienvenido!";
-    let message = `¡Hola, ${name}!`;
+    let title = `¡Bienvenido ${name}!`;
+    let message = `¡Aquí podrás encontrar tus personajes favoritos de la serie!`;
 
     if (returningUser) {
       title = `¡Bienvenido de vuelta ${name}!`;
-      message = `Tu personaje favorito de Dragon Ball es ${character}.`;
+      message = `Tu personaje favorito de Dragon Ball Z es ${character}.`;
     }
 
     Swal.fire({
